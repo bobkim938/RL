@@ -27,7 +27,6 @@ def train(epoch):
             total_reward = 0
             env.reset()
             episode+=1
-            print("new episode")
 
     ax[0].plot(episodeReward)
     ax[0].set_title("Episode Reward")
@@ -40,6 +39,7 @@ def train(epoch):
     ax[1].set_ylabel("Epsilon")
 
     plt.show()
+    fig.savefig("taxi-v3_training.png")
     driver.save_qTable()
 
 if __name__ == "__main__":
