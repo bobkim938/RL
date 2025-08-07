@@ -13,7 +13,6 @@ class taxi_v3:
     def __init__(self):
         self.env = gym.make("Taxi-v3", render_mode='ansi')
         self.state, self.info = self.env.reset()
-        print(self.env.render())
         self.reward = None
         self.terminated = None
         self.truncated = None
@@ -23,10 +22,10 @@ class taxi_v3:
 
     def step(self, action):
         self.state, self.reward, self.terminated, self.truncated, self.info = self.env.step(action)
-        print(self.env.render())
+        # print(self.env.render())
         return self.state, self.reward, self.terminated, self.truncated, self.info
 
     def reset(self):
         self.state, self.info = self.env.reset()
-        print(self.env.render())
+        # print(self.env.render())
 
