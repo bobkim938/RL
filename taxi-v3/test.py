@@ -2,7 +2,7 @@ from agent import agent
 from env import taxi_v3
 import numpy as np
 
-def test(numEpisodes):
+def run_test(numEpisodes):
     env = taxi_v3()
     driver = agent(500, 6)
 
@@ -28,4 +28,4 @@ def test(numEpisodes):
 
 
 if __name__ == "__main__":
-    test(10)
+    run_test(10)
