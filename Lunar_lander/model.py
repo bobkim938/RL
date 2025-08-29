@@ -9,8 +9,6 @@ class network(nn.Module):
             nn.ReLU(),
             nn.Linear(hidden_size, hidden_size), # 1st hidden layer
             nn.ReLU(),
-            nn.Linear(hidden_size, hidden_size), # 2nd hidden layer
-            nn.ReLU(),
             nn.Linear(hidden_size, output_size),
         )
 

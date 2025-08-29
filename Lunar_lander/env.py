@@ -14,7 +14,7 @@ class lunarLander:
     def step(self, action):
         prev_state = self.state
         self.state, self.reward, self.terminated, self.truncated, self.info = self.env.step(action)
-        return prev_state, self.state, self.reward, self.terminated, self.truncated, self.info
+        return action, prev_state, self.state, self.reward, self.terminated, self.truncated, self.info
 
     def reset(self):
         self.state, self.info = self.env.reset()
