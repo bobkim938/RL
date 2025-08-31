@@ -2,7 +2,7 @@ import gymnasium as gym
 
 class lunarLander:
     def __init__(self):
-        self.env = gym.make("LunarLander-v3", continuous=False, render_mode='human')
+        self.env = gym.make("LunarLander-v3", render_mode='human')
         self.state, self.info = self.env.reset()
         self.reward = None
         self.terminated = None

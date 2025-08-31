@@ -6,13 +6,14 @@ import numpy as np
 import matplotlib.pyplot as plt
 import random
 
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+# device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+device = torch.device("mps" if torch.mps.is_available() else "cpu")
 print(f"Using device: {device}")
 
 def train(numEpisodes):
     global experience_tuple
     env = lunarLander()
-    epsilon = 0.2
+    epsilon = 1.0 # initial exploration rate
     discount_rate = 0.95
     reward = []
     episodeCnt = 0
@@ -22,6 +23,7 @@ def train(numEpisodes):
     # Initialize networks and move them to the device
     onlineNet = network(8, 128, 4).to(device)
     targetNet = network(8, 128, 4).to(device)
+    targetNet.load_state_dict(onlineNet.state_dict()) # weight transfer to target Net for early stage training stability
 
     while numEpisodes > episodeCnt:
         if len(replay_buffer) < 5000:  # Filling till min size of the replay buffer
@@ -59,8 +61,8 @@ def train(numEpisodes):
             predict = torch.gather(onlineNet(state_), dim=1, index=action_)
 
             # Define the loss function and optimizer
-            loss_fn = torch.nn.MSELoss()
-            optimizer = torch.optim.Adam(onlineNet.parameters(), lr=0.001)
+            loss_fn = torch.nn.SmoothL1Loss()
+            optimizer = torch.optim.Adam(onlineNet.parameters(), lr=0.0001)
 
             # Compute the loss
             loss = loss_fn(predict.squeeze(1), target)
@@ -76,7 +78,7 @@ def train(numEpisodes):
                 print(f"Episode {episodeCnt} Cumulative Reward: {episodeReward}")
                 reward.append(episodeReward)
                 episodeReward = 0
-                epsilon = max(0.01, epsilon * 0.98)
+                epsilon = max(0.01, epsilon * 0.99)
                 episodeCnt += 1
                 env.reset()
 
