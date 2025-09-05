@@ -18,6 +18,7 @@ class lunarLander:
 
     def reset(self):
         self.state, self.info = self.env.reset()
+        return self.state
 
     
 
